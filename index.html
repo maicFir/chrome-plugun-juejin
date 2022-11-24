@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>仿掘金导航</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="app" :class="[theme === 'light' ? 'light': 'dart']">
+      <template v-if="['home', 'set'].includes(curentPage)">
+        <nav-header
+          :nav-config="navConfig"
+          :theme="theme"
+          :change-theme="changeTheme"
+          :open-set="openSet"
+        ></nav-header>
+        <search
+          :search-conig="searchConig"
+          :search-style="searchStyle"
+        ></search>
+        <base-layout-content>
+          <template slot="left">
+            <item-card
+              :form-condation="formCondation"
+              :type-data="typeData"
+              :list-data="listData"
+            >
+              <template slot="title-lf">
+                <select v-model="formCondation.type">
+                  <option v-for="(index, item) in typeData" :value="item.value">
+                    {{item.name}}
+                  </option>
+                </select>
+              </template>
+              <template slot="title-rt">
+                <span
+                  @click="getData('listStatus', 0)"
+                  :class="{'active': formCondation.listStatus === 0 }"
+                  >推荐</span
+                >
+                <span>|</span>
+                <span
+                  @click="getData('listStatus', 1)"
+                  :class="{'active': formCondation.listStatus === 1 }"
+                  >更新</span
+                >
+              </template>
+            </item-card>
+          </template>
+          <template slot="center">
+            <item-card
+              :form-condation="formCondation"
+              :type-data="typeData"
+              :list-data="gitHubData"
+            >
+              <template slot="title-lf">
+                <select v-model="formCondation.source">
+                  <option
+                    v-for="(index, item) in githubData"
+                    :value="item.value"
+                  >
+                    {{item.name}}
+                  </option>
+                </select>
+              </template>
+              <template slot="title-rt">
+                <span
+                  @click="getData('gitStatus', 0)"
+                  :class="{'active': formCondation.gitStatus === 0 }"
+                  >热门</span
+                >
+                <span>|</span>
+                <span
+                  @click="getData('gitStatus', 1)"
+                  :class="{'active': formCondation.gitStatus === 1 }"
+                  >今日</span
+                >
+                <span>|</span>
+                <span
+                  @click="getData('gitStatus', 2)"
+                  :class="{'active': formCondation.gitStatus === 2 }"
+                  >所有语言</span
+                >
+              </template>
+            </item-card>
+          </template>
+          <template slot="right">
+            <item-card
+              :form-condation="formCondation"
+              :type-data="typeData"
+              :list-data="fdlistData"
+            >
+              <template slot="title-lf">
+                <h3>沸点</h3>
+              </template>
+              <template slot="title-rt">
+                <span
+                  @click="getData('fdStatus', 0)"
+                  :class="{'active': formCondation.fdStatus === 0 }"
+                  >热度</span
+                >
+                <span>|</span>
+                <span
+                  @click="getData('fdStatus', 1)"
+                  :class="{'active': formCondation.fdStatus === 1 }"
+                  >最新</span
+                >
+              </template>
+            </item-card>
+          </template>
+        </base-layout-content>
+      </template>
+      <template v-if="curentPage === 'popup'">
+        <popup-list :popup-list="popupList" :open-set="openSet"></popup-list>
+      </template>
+      <template v-if="['home', 'set'].includes(curentPage) && showSet">
+        <set-popup :handle-close="handleClose" :show-set="showSet"></set-popup>
+      </template>
+    </div>
+    <script src="./scripts/fetch.js"></script>
+    <script src="./scripts/vue.csp.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
