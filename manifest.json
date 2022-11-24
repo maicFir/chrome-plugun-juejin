@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "version": "0.1",
     "name": "仿掘金导航",
-    "author": "",
+    "author": "maicFir",
     "description": "仿掘金导航",
     "action": {
         "default_title": "仿掘金导航",
